@@ -1,0 +1,6 @@
+﻿outcomes:
+  cardiovascular: []
+  diabetes: []
+  liver: []
+  cancer: []
+multimorbidity_threshold: 2
