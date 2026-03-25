@@ -8,8 +8,14 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from chronic_disease_risk.modeling.baseline import train_logistic_baseline
+from chronic_disease_risk.modeling.training_runs import run_baseline_training
 
 
 if __name__ == "__main__":
-    print(train_logistic_baseline)
+    output = run_baseline_training(
+        dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
+        target_column="diabetes",
+        feature_columns=["ridageyr", "aip", "tyg", "tyg_bmi", "glm7_score"],
+        output_dir=REPO_ROOT / "reports" / "tables",
+    )
+    print(output)
