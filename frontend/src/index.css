@@ -1,0 +1,86 @@
+:root {
+  --bg0: #0b0d12;
+  --bg1: #0f1420;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel2: rgba(255, 255, 255, 0.08);
+  --stroke: rgba(255, 255, 255, 0.12);
+  --stroke2: rgba(255, 255, 255, 0.18);
+
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.68);
+  --faint: rgba(255, 255, 255, 0.48);
+
+  --accent: #32d6c8;
+  --accent2: #ffb454;
+  --danger: #ff5d73;
+  --ok: #32d6c8;
+  --warn: #ffb454;
+
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  --shadow2: 0 10px 30px rgba(0, 0, 0, 0.42);
+
+  --sans:
+    ui-sans-serif,
+    "Segoe UI Variable Text",
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    sans-serif;
+  --mono:
+    ui-monospace,
+    "JetBrains Mono",
+    "Cascadia Mono",
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font: 16px/1.55 var(--sans);
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 22% 8%, rgba(50, 214, 200, 0.14), transparent 55%),
+    radial-gradient(900px 700px at 86% 16%, rgba(255, 180, 84, 0.12), transparent 52%),
+    radial-gradient(1000px 700px at 50% 88%, rgba(50, 214, 200, 0.1), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(50, 214, 200, 0.75);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(50, 214, 200, 0.22);
+}
