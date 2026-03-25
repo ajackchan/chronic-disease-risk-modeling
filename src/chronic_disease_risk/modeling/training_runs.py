@@ -77,3 +77,29 @@ def run_candidate_training(
         "best_model_name": best_model_name,
         "model_path": model_path,
     }
+
+
+def run_all_baseline_trainings(
+    dataset_path: Path,
+    task_names: list[str],
+    feature_columns: list[str],
+    output_dir: Path,
+    random_state: int = 42,
+) -> dict[str, dict[str, Path]]:
+    return {
+        task_name: run_baseline_training(dataset_path, task_name, feature_columns, output_dir, random_state)
+        for task_name in task_names
+    }
+
+
+def run_all_candidate_trainings(
+    dataset_path: Path,
+    task_names: list[str],
+    feature_columns: list[str],
+    output_dir: Path,
+    random_state: int = 42,
+) -> dict[str, dict[str, Path | str]]:
+    return {
+        task_name: run_candidate_training(dataset_path, task_name, feature_columns, output_dir, random_state)
+        for task_name in task_names
+    }

@@ -1,10 +1,16 @@
 ﻿random_state: 42
+feature_columns:
+  - ridageyr
+  - aip
+  - tyg
+  - tyg_bmi
+  - glm7_score
 tasks:
   - cardiovascular
   - diabetes
   - liver
   - cancer
-  - multimorbidity
+  - multimorbidity_label
 metrics:
   - auc
   - accuracy

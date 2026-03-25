@@ -8,13 +8,16 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from chronic_disease_risk.artifacts.exporter import export_training_artifact
+from chronic_disease_risk.artifacts.exporter import export_all_training_artifacts
+from chronic_disease_risk.config import load_yaml_config
 
 
 if __name__ == "__main__":
-    export_training_artifact(
-        task_name="diabetes",
-        metrics_table_path=REPO_ROOT / "reports" / "tables" / "candidate_diabetes_summary.csv",
-        feature_names=["ridageyr", "aip", "tyg", "tyg_bmi", "glm7_score"],
-        destination=REPO_ROOT / "artifacts" / "diabetes_candidate_summary.json",
+    modeling_config = load_yaml_config(REPO_ROOT / "configs" / "modeling.yaml")
+    outputs = export_all_training_artifacts(
+        task_names=modeling_config["tasks"],
+        reports_dir=REPO_ROOT / "reports" / "tables",
+        feature_names=modeling_config["feature_columns"],
+        destination_dir=REPO_ROOT / "artifacts",
     )
+    print(outputs)
