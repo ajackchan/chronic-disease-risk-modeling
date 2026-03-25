@@ -1,0 +1,10 @@
+﻿feature_names:
+  - age
+  - insulin
+  - triglycerides
+  - ldl_c
+  - aip
+  - tyg
+  - tyg_bmi
+weights: {}
+intercept: 0.0
