@@ -1,4 +1,4 @@
-__pycache__/
+﻿__pycache__/
 *.py[cod]
 .venv/
 venv/
@@ -10,3 +10,7 @@ data/raw/
 data/interim/
 data/processed/
 models/
+artifacts/
+reports/figures/
+reports/tables/
+.ruff_cache/

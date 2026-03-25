@@ -1,0 +1,13 @@
+﻿random_state: 42
+tasks:
+  - cardiovascular
+  - diabetes
+  - liver
+  - cancer
+  - multimorbidity
+metrics:
+  - auc
+  - accuracy
+  - precision
+  - recall
+  - f1
