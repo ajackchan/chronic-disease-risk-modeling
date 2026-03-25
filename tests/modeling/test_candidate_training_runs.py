@@ -5,7 +5,7 @@ import pandas as pd
 from chronic_disease_risk.modeling.training_runs import run_candidate_training
 
 
-def test_run_candidate_training_selects_best_model_and_writes_summary(tmp_path: Path) -> None:
+def test_run_candidate_training_selects_best_model_writes_summary_and_plot(tmp_path: Path) -> None:
     dataset_path = tmp_path / "processed.csv"
     df = pd.DataFrame(
         {
@@ -29,6 +29,7 @@ def test_run_candidate_training_selects_best_model_and_writes_summary(tmp_path: 
     )
 
     assert output["summary_path"].exists()
+    assert output["comparison_plot_path"].exists()
     assert output["best_model_name"]
     summary = pd.read_csv(output["summary_path"])
     assert "model_name" in summary.columns

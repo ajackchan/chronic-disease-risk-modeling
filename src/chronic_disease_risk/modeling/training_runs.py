@@ -7,7 +7,12 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from chronic_disease_risk.evaluation.metrics import compute_binary_metrics
-from chronic_disease_risk.evaluation.reporting import write_metrics_table
+from chronic_disease_risk.evaluation.reporting import (
+    save_confusion_matrix_plot,
+    save_model_comparison_plot,
+    save_roc_curve_plot,
+    write_metrics_table,
+)
 from chronic_disease_risk.modeling.baseline import train_logistic_baseline
 from chronic_disease_risk.modeling.candidates import build_candidate_models
 from chronic_disease_risk.modeling.pipeline import build_feature_pipeline
@@ -31,15 +36,25 @@ def run_baseline_training(
     X_train, X_test, y_train, y_test = _train_test_data(dataset_path, target_column, feature_columns, random_state)
     model = train_logistic_baseline(X_train, y_train)
     y_prob = model.predict_proba(X_test)[:, 1]
+    y_pred = (y_prob >= 0.5).astype(int)
     metrics = compute_binary_metrics(y_test.to_numpy(), y_prob)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     metrics_path = output_dir / f"baseline_{target_column}_metrics.csv"
     model_path = output_dir / f"baseline_{target_column}.joblib"
+    roc_plot_path = output_dir / f"baseline_{target_column}_roc.png"
+    confusion_matrix_path = output_dir / f"baseline_{target_column}_confusion.png"
     write_metrics_table(metrics, metrics_path)
+    save_roc_curve_plot(y_test.to_numpy(), y_prob, roc_plot_path, title=f"Baseline ROC - {target_column}")
+    save_confusion_matrix_plot(y_test.to_numpy(), y_pred, confusion_matrix_path, title=f"Baseline Confusion - {target_column}")
     joblib.dump(model, model_path)
 
-    return {"metrics_path": metrics_path, "model_path": model_path}
+    return {
+        "metrics_path": metrics_path,
+        "model_path": model_path,
+        "roc_plot_path": roc_plot_path,
+        "confusion_matrix_path": confusion_matrix_path,
+    }
 
 
 def run_candidate_training(
@@ -69,13 +84,16 @@ def run_candidate_training(
     output_dir.mkdir(parents=True, exist_ok=True)
     summary_path = output_dir / f"candidate_{target_column}_summary.csv"
     model_path = output_dir / f"candidate_best_{target_column}.joblib"
+    comparison_plot_path = output_dir / f"candidate_{target_column}_comparison.png"
     summary.to_csv(summary_path, index=False)
+    save_model_comparison_plot(summary, destination=comparison_plot_path, metric_name="auc", title=f"Candidate Comparison - {target_column}")
     joblib.dump(trained_models[best_model_name], model_path)
 
     return {
         "summary_path": summary_path,
         "best_model_name": best_model_name,
         "model_path": model_path,
+        "comparison_plot_path": comparison_plot_path,
     }
 
 

@@ -38,6 +38,8 @@ def test_run_all_baseline_trainings_writes_one_result_per_task(tmp_path: Path) -
     assert set(outputs) == {"cardiovascular", "diabetes", "liver", "cancer", "multimorbidity_label"}
     assert all(result["metrics_path"].exists() for result in outputs.values())
     assert all(result["model_path"].exists() for result in outputs.values())
+    assert all(result["roc_plot_path"].exists() for result in outputs.values())
+    assert all(result["confusion_matrix_path"].exists() for result in outputs.values())
 
 
 def test_run_all_candidate_trainings_writes_one_summary_per_task(tmp_path: Path) -> None:
@@ -55,3 +57,4 @@ def test_run_all_candidate_trainings_writes_one_summary_per_task(tmp_path: Path)
     assert set(outputs) == {"cardiovascular", "diabetes", "liver", "cancer", "multimorbidity_label"}
     assert all(result["summary_path"].exists() for result in outputs.values())
     assert all(result["model_path"].exists() for result in outputs.values())
+    assert all(result["comparison_plot_path"].exists() for result in outputs.values())

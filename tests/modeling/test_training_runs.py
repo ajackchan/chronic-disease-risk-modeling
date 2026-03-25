@@ -5,7 +5,7 @@ import pandas as pd
 from chronic_disease_risk.modeling.training_runs import run_baseline_training
 
 
-def test_run_baseline_training_writes_metrics_and_model(tmp_path: Path) -> None:
+def test_run_baseline_training_writes_metrics_model_and_plots(tmp_path: Path) -> None:
     dataset_path = tmp_path / "processed.csv"
     df = pd.DataFrame(
         {
@@ -29,5 +29,7 @@ def test_run_baseline_training_writes_metrics_and_model(tmp_path: Path) -> None:
 
     assert output["metrics_path"].exists()
     assert output["model_path"].exists()
+    assert output["roc_plot_path"].exists()
+    assert output["confusion_matrix_path"].exists()
     metrics = pd.read_csv(output["metrics_path"])
     assert set(metrics.columns) == {"auc", "accuracy", "precision", "recall", "f1"}
