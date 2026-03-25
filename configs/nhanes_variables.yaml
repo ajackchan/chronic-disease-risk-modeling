@@ -1,0 +1,18 @@
+﻿cycles:
+  2017-2018:
+    demo:
+      - seqn
+      - ridageyr
+      - riagendr
+      - ridreth3
+      - dmdeduc2
+    lab:
+      - seqn
+      - lbxglu
+      - lbxtr
+      - lbdhdd
+      - lbxins
+      - lbdldl
+      - bmxbmi
+    questionnaire:
+      - seqn
