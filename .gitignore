@@ -14,3 +14,8 @@ artifacts/
 reports/figures/
 reports/tables/
 .ruff_cache/
+
+!src/chronic_disease_risk/artifacts/
+!src/chronic_disease_risk/artifacts/*.py
+!tests/artifacts/
+!tests/artifacts/*.py
