@@ -8,9 +8,9 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from chronic_disease_risk.preprocessing.nhanes_merge import merge_nhanes_tables
+from chronic_disease_risk.preprocessing import build_nhanes_interim_dataset
 
 
 if __name__ == "__main__":
-    merged = merge_nhanes_tables({})
-    print(f"merged_rows={len(merged)}")
+    output = build_nhanes_interim_dataset(repo_root=REPO_ROOT)
+    print(output)

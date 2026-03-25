@@ -8,8 +8,9 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from chronic_disease_risk.preprocessing.cohort import apply_inclusion_rules
+from chronic_disease_risk.preprocessing import build_processed_dataset_from_csv
 
 
 if __name__ == "__main__":
-    print(apply_inclusion_rules)
+    output = build_processed_dataset_from_csv(repo_root=REPO_ROOT)
+    print(output)

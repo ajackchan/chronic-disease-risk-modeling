@@ -1,6 +1,27 @@
 ﻿outcomes:
-  cardiovascular: []
-  diabetes: []
-  liver: []
-  cancer: []
+  cardiovascular:
+    any_of:
+      - mcq160b
+      - mcq160c
+      - mcq160d
+      - mcq160e
+      - mcq160f
+    positive_values:
+      - 1
+  diabetes:
+    any_of:
+      - diq010
+    positive_values:
+      - 1
+      - 3
+  liver:
+    any_of:
+      - mcq160l
+    positive_values:
+      - 1
+  cancer:
+    any_of:
+      - mcq220
+    positive_values:
+      - 1
 multimorbidity_threshold: 2

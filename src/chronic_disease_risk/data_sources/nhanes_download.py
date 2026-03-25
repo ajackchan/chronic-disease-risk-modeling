@@ -5,6 +5,7 @@ from pathlib import Path
 import requests
 
 from chronic_disease_risk.config import load_yaml_config, resolve_repo_path
+from chronic_disease_risk.data_sources.nhanes_registry import build_download_manifest
 
 
 def download_file(url: str, destination: Path) -> Path:
@@ -21,11 +22,10 @@ def download_file(url: str, destination: Path) -> Path:
 def download_from_config(config_path: str | Path = "configs/nhanes.yaml", repo_root: str | Path | None = None) -> list[Path]:
     repo_root = Path(repo_root or Path.cwd())
     config = load_yaml_config(resolve_repo_path(repo_root, str(config_path)))
-    downloads = config.get("downloads", [])
+    manifest = build_download_manifest(config, repo_root)
     written: list[Path] = []
 
-    for item in downloads:
-        destination = resolve_repo_path(repo_root, item["destination"])
-        written.append(download_file(item["url"], destination))
+    for item in manifest:
+        written.append(download_file(item["url"], item["destination"]))
 
     return written

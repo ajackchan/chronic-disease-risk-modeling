@@ -1,18 +1,41 @@
 ﻿cycles:
   2017-2018:
-    demo:
+    DEMO:
       - seqn
+      - ridstatr
       - ridageyr
       - riagendr
       - ridreth3
       - dmdeduc2
-    lab:
+      - sdmvpsu
+      - sdmvstra
+      - wtint2yr
+      - wtmec2yr
+    BMX:
+      - seqn
+      - bmxbmi
+    GLU:
       - seqn
       - lbxglu
-      - lbxtr
-      - lbdhdd
-      - lbxins
-      - lbdldl
-      - bmxbmi
-    questionnaire:
+    HDL:
       - seqn
+      - lbdhdd
+    TRIGLY:
+      - seqn
+      - lbxtr
+      - lbdldl
+    INS:
+      - seqn
+      - lbxin
+    MCQ:
+      - seqn
+      - mcq160b
+      - mcq160c
+      - mcq160d
+      - mcq160e
+      - mcq160f
+      - mcq160l
+      - mcq220
+    DIQ:
+      - seqn
+      - diq010

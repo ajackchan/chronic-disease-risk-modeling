@@ -1,5 +1,14 @@
-﻿cycles:
-  - "2017-2018"
-base_url: "https://wwwn.cdc.gov/Nchs/Nhanes"
-components: {}
-downloads: []
+﻿base_url: https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public
+cycles:
+  - name: 2017-2018
+    path: '2017'
+    suffix: J
+    files:
+      - table: DEMO
+      - table: BMX
+      - table: GLU
+      - table: HDL
+      - table: TRIGLY
+      - table: INS
+      - table: MCQ
+      - table: DIQ
