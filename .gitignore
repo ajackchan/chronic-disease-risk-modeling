@@ -1,4 +1,4 @@
-﻿__pycache__/
+__pycache__/
 *.py[cod]
 .venv/
 venv/
@@ -19,3 +19,9 @@ reports/tables/
 !src/chronic_disease_risk/artifacts/*.py
 !tests/artifacts/
 !tests/artifacts/*.py
+
+# Node caches
+.npm-cache/
+
+# Run state
+.run/
