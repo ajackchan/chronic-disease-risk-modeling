@@ -74,3 +74,7 @@ python scripts/validate_on_charls.py
 - SHAP 解释图(脚本已提供)
 
 这些先写进论文, 把 CHARLS 外部验证部分在方法里写清楚流程, 等数据到手再补实验结果。
+
+## Incident 标签说明
+
+如果你想严格按开题报告的‘基线无病 -> 随访新发’口径做外部验证，请先看 docs/incidence_notes.md。
