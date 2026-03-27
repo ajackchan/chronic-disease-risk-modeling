@@ -125,6 +125,7 @@ def run_candidate_training(
     random_state: int = 42,
     enable_tuning: bool = False,
     tuning_mode: str = "random",
+    enable_feature_engineering: bool = False,
     *,
     split_strategy: str = "random",
     test_size: float = 0.25,
@@ -138,13 +139,17 @@ def run_candidate_training(
         split_strategy=split_strategy,
         test_size=test_size,
     )
-    candidates = build_candidate_models(random_state=random_state)
+    candidates = build_candidate_models(
+        random_state=random_state,
+        enable_feature_engineering=enable_feature_engineering,
+    )
 
     rows: list[dict[str, float | str]] = []
     trained_models: dict[str, object] = {}
 
     for model_name, estimator in candidates.items():
-        pipeline = build_feature_pipeline(estimator)
+        # Some candidates may be full pipelines (e.g. polynomial feature engineering).
+        pipeline = estimator if hasattr(estimator, "named_steps") else build_feature_pipeline(estimator)
         pipeline.fit(X_train, y_train)
         y_prob = pipeline.predict_proba(X_test)[:, 1]
         metrics = compute_binary_metrics(y_test.to_numpy(), y_prob)
@@ -202,7 +207,12 @@ def run_candidate_training(
     y_prob_best = best_pipeline.predict_proba(X_test)[:, 1]
     y_pred_best = (y_prob_best >= 0.5).astype(int)
 
-    save_roc_curve_plot(y_test.to_numpy(), y_prob_best, best_roc_plot_path, title=f"Candidate Best ROC - {target_column}{suffix}")
+    save_roc_curve_plot(
+        y_test.to_numpy(),
+        y_prob_best,
+        best_roc_plot_path,
+        title=f"Candidate Best ROC - {target_column}{suffix}",
+    )
     save_confusion_matrix_plot(
         y_test.to_numpy(),
         y_pred_best,
@@ -270,6 +280,7 @@ def run_all_candidate_trainings(
     random_state: int = 42,
     enable_tuning: bool = False,
     tuning_mode: str = "random",
+    enable_feature_engineering: bool = False,
     *,
     split_strategy: str = "random",
     test_size: float = 0.25,
@@ -284,6 +295,7 @@ def run_all_candidate_trainings(
             random_state=random_state,
             enable_tuning=enable_tuning,
             tuning_mode=tuning_mode,
+            enable_feature_engineering=enable_feature_engineering,
             split_strategy=split_strategy,
             test_size=test_size,
             artifact_label=artifact_label,

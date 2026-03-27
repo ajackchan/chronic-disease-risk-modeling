@@ -20,7 +20,9 @@ NHANES-first research pipeline for chronic disease risk feature engineering, mod
 6. `python scripts/export_artifacts.py`
 
 Optional thesis artifacts:
+- Feature engineering experiment (poly interactions): `python scripts/train_candidates_feature_eng.py`
 - SHAP: `python scripts/export_shap.py`
+- GLM7 analysis (requires real coefficients in `configs/glm7.yaml`): `python scripts/analyze_glm7.py`
 - Tuning summary: `python scripts/summarize_tuning.py`
 - CHARLS external validation (requires `data/processed/charls_model_dataset.csv`): `python scripts/validate_on_charls.py`
 
