@@ -48,7 +48,7 @@
 - `diabetes`
 - `liver`
 - `cancer`
-- `multimorbidity`
+- `multimorbidity_label`
 
 说明:
 - 如果 CHARLS 原始变量名不同, 需要做一次映射/重命名, 并按本项目口径计算 `aip/tyg/tyg_bmi`。
