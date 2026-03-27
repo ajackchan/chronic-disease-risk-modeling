@@ -34,6 +34,14 @@ def save_shap_summary_plot_with_background(
     explainer = shap.Explainer(model, background)
     shap_values = explainer(X)
 
+    # For some classifiers, SHAP returns per-class outputs with shape (n, features, outputs).
+    # Beeswarm expects a single output; use the positive class when available.
+    try:
+        if getattr(shap_values, "values", None) is not None and getattr(shap_values.values, "ndim", 0) == 3:
+            shap_values = shap_values[..., 1]
+    except Exception:
+        pass
+
     try:
         shap.plots.beeswarm(shap_values, show=False, max_display=max_display)
     except TypeError:
