@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 import sys
@@ -14,11 +14,25 @@ from chronic_disease_risk.modeling.training_runs import run_all_baseline_trainin
 
 if __name__ == "__main__":
     modeling_config = load_yaml_config(REPO_ROOT / "configs" / "modeling.yaml")
-    output = run_all_baseline_trainings(
-        dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
-        task_names=modeling_config["tasks"],
-        feature_columns=modeling_config["feature_columns"],
-        output_dir=REPO_ROOT / "reports" / "tables",
-        random_state=modeling_config.get("random_state", 42),
-    )
+
+    # Optional:
+    # - --time-split: split by NHANES cycle (early cycles train, latest cycles test)
+    #   This requires the dataset to contain 2+ distinct cycles.
+    split_strategy = "time" if "--time-split" in sys.argv else "random"
+    artifact_label = "time" if split_strategy == "time" else None
+
+    try:
+        output = run_all_baseline_trainings(
+            dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
+            task_names=modeling_config["tasks"],
+            feature_columns=modeling_config["feature_columns"],
+            output_dir=REPO_ROOT / "reports" / "tables",
+            random_state=modeling_config.get("random_state", 42),
+            split_strategy=split_strategy,
+            artifact_label=artifact_label,
+        )
+    except ValueError as exc:
+        print(f"[ERROR] {exc}")
+        raise SystemExit(2) from exc
+
     print(output)

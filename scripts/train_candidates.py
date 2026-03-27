@@ -21,13 +21,26 @@ if __name__ == "__main__":
     enable_tuning = ("--tune" in sys.argv) or ("--tune-grid" in sys.argv)
     tuning_mode = "grid" if "--tune-grid" in sys.argv else "random"
 
-    output = run_all_candidate_trainings(
-        dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
-        task_names=modeling_config["tasks"],
-        feature_columns=modeling_config["feature_columns"],
-        output_dir=REPO_ROOT / "reports" / "tables",
-        random_state=modeling_config.get("random_state", 42),
-        enable_tuning=enable_tuning,
-        tuning_mode=tuning_mode,
-    )
+    # Optional split:
+    # - --time-split: split by NHANES cycle (early cycles train, latest cycles test)
+    #   This requires the dataset to contain 2+ distinct cycles.
+    split_strategy = "time" if "--time-split" in sys.argv else "random"
+    artifact_label = "time" if split_strategy == "time" else None
+
+    try:
+        output = run_all_candidate_trainings(
+            dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
+            task_names=modeling_config["tasks"],
+            feature_columns=modeling_config["feature_columns"],
+            output_dir=REPO_ROOT / "reports" / "tables",
+            random_state=modeling_config.get("random_state", 42),
+            enable_tuning=enable_tuning,
+            tuning_mode=tuning_mode,
+            split_strategy=split_strategy,
+            artifact_label=artifact_label,
+        )
+    except ValueError as exc:
+        print(f"[ERROR] {exc}")
+        raise SystemExit(2) from exc
+
     print(output)

@@ -13,13 +13,19 @@ NHANES-first research pipeline for chronic disease risk feature engineering, mod
 2. `python scripts/build_nhanes_interim.py`
 3. `python scripts/build_model_dataset.py`
 4. `python scripts/train_baseline.py`
+   - Time validation (cycle split): `python scripts/train_baseline.py --time-split`
 5. `python scripts/train_candidates.py`
    - Optional tuning: `python scripts/train_candidates.py --tune`
+   - Time validation (cycle split): `python scripts/train_candidates.py --time-split`
 6. `python scripts/export_artifacts.py`
 
 Optional thesis artifacts:
 - SHAP: `python scripts/export_shap.py`
+- Tuning summary: `python scripts/summarize_tuning.py`
 - CHARLS external validation (requires `data/processed/charls_model_dataset.csv`): `python scripts/validate_on_charls.py`
+
+Notes:
+- `--time-split` requires the dataset to contain at least 2 distinct NHANES cycles. Your current repo config only includes 2017-2018, so add more cycles in `configs/nhanes.yaml` and `configs/nhanes_variables.yaml` first.
 
 ## Web Demo (答辩展示台)
 
