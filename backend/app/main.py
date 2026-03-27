@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.app.api.routes_health import health_router
 from backend.app.api.routes_overview import overview_router
 from backend.app.api.routes_predict import predict_router
+from backend.app.api.routes_explain import explain_router
 from backend.app.api.routes_samples import samples_router
 from backend.app.api.routes_tasks import tasks_router
 from backend.app.config import REPO_ROOT
@@ -18,6 +19,7 @@ def create_app() -> FastAPI:
     app.include_router(tasks_router, prefix='/api')
     app.include_router(samples_router, prefix='/api')
     app.include_router(predict_router, prefix='/api')
+    app.include_router(explain_router, prefix='/api')
 
     # Serve training artifacts (ROC plots, CSV summaries, etc.) from repo root.
     app.mount('/static', StaticFiles(directory=REPO_ROOT), name='static')
