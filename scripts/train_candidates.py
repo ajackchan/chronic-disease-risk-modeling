@@ -15,8 +15,11 @@ from chronic_disease_risk.modeling.training_runs import run_all_candidate_traini
 if __name__ == "__main__":
     modeling_config = load_yaml_config(REPO_ROOT / "configs" / "modeling.yaml")
 
-    # Optional: add '--tune' to enable XGBoost CV + randomized search.
-    enable_tuning = "--tune" in sys.argv
+    # Optional tuning flags:
+    # - --tune: enable XGBoost CV + randomized search
+    # - --tune-grid: enable XGBoost CV + grid search
+    enable_tuning = ("--tune" in sys.argv) or ("--tune-grid" in sys.argv)
+    tuning_mode = "grid" if "--tune-grid" in sys.argv else "random"
 
     output = run_all_candidate_trainings(
         dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
@@ -25,5 +28,6 @@ if __name__ == "__main__":
         output_dir=REPO_ROOT / "reports" / "tables",
         random_state=modeling_config.get("random_state", 42),
         enable_tuning=enable_tuning,
+        tuning_mode=tuning_mode,
     )
     print(output)

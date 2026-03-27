@@ -78,6 +78,7 @@ def run_candidate_training(
     output_dir: Path,
     random_state: int = 42,
     enable_tuning: bool = False,
+    tuning_mode: str = "random",
 ) -> dict[str, Path | str]:
     X_train, X_test, y_train, y_test = _train_test_data(dataset_path, target_column, feature_columns, random_state)
     candidates = build_candidate_models(random_state=random_state)
@@ -104,6 +105,7 @@ def run_candidate_training(
                 X_train,
                 y_train,
                 random_state=random_state,
+                search_mode=tuning_mode,
                 destination=tuned_path,
             )
             y_prob_tuned = tuned_pipeline.predict_proba(X_test)[:, 1]
@@ -186,8 +188,17 @@ def run_all_candidate_trainings(
     output_dir: Path,
     random_state: int = 42,
     enable_tuning: bool = False,
+    tuning_mode: str = "random",
 ) -> dict[str, dict[str, Path | str]]:
     return {
-        task_name: run_candidate_training(dataset_path, task_name, feature_columns, output_dir, random_state, enable_tuning)
+        task_name: run_candidate_training(
+            dataset_path=dataset_path,
+            target_column=task_name,
+            feature_columns=feature_columns,
+            output_dir=output_dir,
+            random_state=random_state,
+            enable_tuning=enable_tuning,
+            tuning_mode=tuning_mode,
+        )
         for task_name in task_names
     }

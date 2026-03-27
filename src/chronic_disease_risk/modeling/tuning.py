@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, StratifiedKFold
 
 
 def tune_xgboost_pipeline(
@@ -12,6 +12,8 @@ def tune_xgboost_pipeline(
     y_train,
     random_state: int,
     destination: Path | None = None,
+    *,
+    search_mode: str = "random",
     n_iter: int = 8,
     cv_splits: int = 3,
 ) -> tuple[object, dict, float]:
@@ -21,9 +23,13 @@ def tune_xgboost_pipeline(
     the proposal requirement of 'CV + grid/random search'.
 
     The pipeline is expected to have a final step named 'model'.
+
+    search_mode:
+    - "random": RandomizedSearchCV (default)
+    - "grid": GridSearchCV
     """
 
-    param_distributions = {
+    param_grid = {
         'model__n_estimators': [120, 180, 240, 300],
         'model__max_depth': [3, 4, 5],
         'model__learning_rate': [0.03, 0.05, 0.08, 0.1],
@@ -34,16 +40,28 @@ def tune_xgboost_pipeline(
     }
 
     cv = StratifiedKFold(n_splits=cv_splits, shuffle=True, random_state=random_state)
-    search = RandomizedSearchCV(
-        estimator=pipeline,
-        param_distributions=param_distributions,
-        n_iter=n_iter,
-        scoring='roc_auc',
-        cv=cv,
-        random_state=random_state,
-        n_jobs=1,
-        refit=True,
-    )
+
+    if search_mode == "grid":
+        search = GridSearchCV(
+            estimator=pipeline,
+            param_grid=param_grid,
+            scoring='roc_auc',
+            cv=cv,
+            n_jobs=1,
+            refit=True,
+        )
+    else:
+        search = RandomizedSearchCV(
+            estimator=pipeline,
+            param_distributions=param_grid,
+            n_iter=n_iter,
+            scoring='roc_auc',
+            cv=cv,
+            random_state=random_state,
+            n_jobs=1,
+            refit=True,
+        )
+
     search.fit(X_train, y_train)
 
     best_estimator = search.best_estimator_
@@ -53,9 +71,14 @@ def tune_xgboost_pipeline(
     if destination is not None:
         destination.parent.mkdir(parents=True, exist_ok=True)
         payload = {
+            'search_mode': search_mode,
             'best_score_cv_auc': best_score,
             'best_params': best_params,
         }
+        if search_mode != "grid":
+            payload['n_iter'] = n_iter
+        payload['cv_splits'] = cv_splits
+
         destination.write_text(json.dumps(payload, indent=2), encoding='utf-8')
 
     return best_estimator, best_params, best_score
