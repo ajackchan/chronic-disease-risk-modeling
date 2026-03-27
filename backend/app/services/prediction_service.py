@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 
@@ -13,10 +13,19 @@ from chronic_disease_risk.features.glm7 import GLM7Builder
 
 
 def _build_feature_row(payload: PredictRequest) -> pd.DataFrame:
+    """Build a single-row feature DataFrame.
+
+    We intentionally include a superset of features and later subset by
+    configs/modeling.yaml feature_columns so backend inference stays aligned
+    with the trained pipeline.
+    """
+
     glm7_config = load_yaml_config(CONFIGS_DIR / 'glm7.yaml')
+
     aip = compute_aip(payload.lbxtr, payload.lbdhdd)
     tyg = compute_tyg(payload.lbxtr, payload.lbxglu)
     tyg_bmi = compute_tyg_bmi(tyg, payload.bmxbmi)
+
     glm7_builder = GLM7Builder(weights=glm7_config.get('weights', {}), intercept=glm7_config.get('intercept', 0.0))
     glm7_score = glm7_builder.transform_row(
         {
@@ -29,10 +38,17 @@ def _build_feature_row(payload: PredictRequest) -> pd.DataFrame:
             'tyg_bmi': tyg_bmi,
         }
     )['glm7_score']
+
     return pd.DataFrame(
         [
             {
                 'ridageyr': payload.ridageyr,
+                'bmxbmi': payload.bmxbmi,
+                'lbxglu': payload.lbxglu,
+                'lbxtr': payload.lbxtr,
+                'lbdhdd': payload.lbdhdd,
+                'lbdldl': payload.lbdldl,
+                'lbxin': payload.lbxin,
                 'aip': aip,
                 'tyg': tyg,
                 'tyg_bmi': tyg_bmi,
@@ -53,8 +69,13 @@ def _risk_label(probability: float) -> str:
 def predict_all_tasks(payload: PredictRequest, model_dir: Path = REPORTS_DIR) -> dict[str, dict]:
     modeling_config = load_yaml_config(CONFIGS_DIR / 'modeling.yaml')
     task_names = modeling_config.get('tasks', [])
+    feature_columns = modeling_config.get('feature_columns', [])
+
     feature_row = _build_feature_row(payload)
-    predictions = {}
+    if feature_columns:
+        feature_row = feature_row[feature_columns]
+
+    predictions: dict[str, dict] = {}
 
     for task_name in task_names:
         model = joblib.load(model_dir / f'candidate_best_{task_name}.joblib')

@@ -14,16 +14,12 @@ from chronic_disease_risk.modeling.training_runs import run_all_candidate_traini
 
 if __name__ == "__main__":
     modeling_config = load_yaml_config(REPO_ROOT / "configs" / "modeling.yaml")
-
-    # Optional: add '--tune' to enable XGBoost CV + randomized search.
-    enable_tuning = "--tune" in sys.argv
-
     output = run_all_candidate_trainings(
         dataset_path=REPO_ROOT / "data" / "processed" / "nhanes_model_dataset.csv",
         task_names=modeling_config["tasks"],
         feature_columns=modeling_config["feature_columns"],
         output_dir=REPO_ROOT / "reports" / "tables",
         random_state=modeling_config.get("random_state", 42),
-        enable_tuning=enable_tuning,
+        enable_tuning=True,
     )
     print(output)
