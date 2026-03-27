@@ -1,12 +1,12 @@
 random_state: 42
 feature_columns:
   - ridageyr
+  - bmxbmi
+  - lbxglu
   - lbxin
   - lbxtr
   - lbdldl
-  - aip
-  - tyg
-  - tyg_bmi
+  - lbdhdd
 tasks:
   - cardiovascular
   - diabetes

@@ -1,4 +1,4 @@
-﻿import math
+import math
 
 import pandas as pd
 import pytest
@@ -32,7 +32,8 @@ def test_build_processed_dataset_adds_features_and_labels() -> None:
 
     processed = build_processed_dataset(df)
 
-    assert processed.loc[0, "aip"] == pytest.approx(math.log10(150.0 / 50.0))
+    expected_aip = math.log10((150.0 / 88.57) / (50.0 / 38.67))
+    assert processed.loc[0, "aip"] == pytest.approx(expected_aip)
     assert processed.loc[0, "tyg_bmi"] > 0
     assert processed.loc[0, "cardiovascular"] == 1
     assert processed.loc[0, "diabetes"] == 0

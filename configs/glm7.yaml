@@ -1,10 +1,16 @@
-﻿feature_names:
+# GLM7 definition (from paper / formula provided by user)
+# GLM7 = log10( Age(year) * BMI(kg/m^2) * FBG(mg/dL) * Insulin(pmol/L) * TG(mmol/L) * LDL-c(mmol/L) / HDL-c(mmol/L) )
+#
+# Notes on NHANES units:
+# - lbxtr/lbdldl/lbdhdd are typically in mg/dL and will be converted to mmol/L
+# - lbxin is typically in uU/mL and will be converted to pmol/L
+feature_names:
   - age
+  - bmi
+  - fbg
   - insulin
   - triglycerides
   - ldl_c
-  - aip
-  - tyg
-  - tyg_bmi
+  - hdl_c
 weights: {}
 intercept: 0.0

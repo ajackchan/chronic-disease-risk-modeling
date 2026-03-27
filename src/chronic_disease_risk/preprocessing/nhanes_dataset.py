@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 
@@ -25,6 +25,13 @@ def build_nhanes_interim_dataset(repo_root: Path | None = None) -> Path:
             table = file_config["table"]
             table_code = f"{table}_{suffix}"
             xpt_path = repo_root / "data" / "raw" / "nhanes" / cycle_name / f"{table_code}.xpt"
+
+            if not xpt_path.exists():
+                raise FileNotFoundError(
+                    f"Missing NHANES XPT: {xpt_path.as_posix()}\n"
+                    "Please run: python scripts/download_nhanes.py"
+                )
+
             table_df = read_xpt(xpt_path)
             selected_columns = [column for column in cycle_tables.get(table, []) if column in table_df.columns]
             loaded_tables[table] = table_df[selected_columns].copy()

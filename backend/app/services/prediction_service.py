@@ -30,12 +30,12 @@ def _build_feature_row(payload: PredictRequest) -> pd.DataFrame:
     glm7_score = glm7_builder.transform_row(
         {
             'age': payload.ridageyr,
+            'bmi': payload.bmxbmi,
+            'fbg': payload.lbxglu,
             'insulin': payload.lbxin,
             'triglycerides': payload.lbxtr,
             'ldl_c': payload.lbdldl,
-            'aip': aip,
-            'tyg': tyg,
-            'tyg_bmi': tyg_bmi,
+            'hdl_c': payload.lbdhdd,
         }
     )['glm7_score']
 

@@ -1,5 +1,29 @@
-﻿base_url: https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public
+base_url: https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public
 cycles:
+  - name: 2013-2014
+    path: '2013'
+    suffix: H
+    files:
+      - table: DEMO
+      - table: BMX
+      - table: GLU
+      - table: HDL
+      - table: TRIGLY
+      - table: INS
+      - table: MCQ
+      - table: DIQ
+  - name: 2015-2016
+    path: '2015'
+    suffix: I
+    files:
+      - table: DEMO
+      - table: BMX
+      - table: GLU
+      - table: HDL
+      - table: TRIGLY
+      - table: INS
+      - table: MCQ
+      - table: DIQ
   - name: 2017-2018
     path: '2017'
     suffix: J

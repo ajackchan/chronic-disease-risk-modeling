@@ -1,4 +1,4 @@
-﻿import math
+import math
 
 import pytest
 
@@ -10,7 +10,9 @@ from chronic_disease_risk.features.formulas import (
 
 
 def test_compute_aip_uses_log10_ratio() -> None:
-    assert compute_aip(2.0, 1.0) == pytest.approx(math.log10(2.0))
+    # AIP uses molar ratio; when inputs are mg/dL, conversion factors apply.
+    expected = math.log10((2.0 / 88.57) / (1.0 / 38.67))
+    assert compute_aip(2.0, 1.0) == pytest.approx(expected)
 
 
 def test_compute_tyg_matches_reference_formula() -> None:

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 
@@ -40,14 +40,15 @@ def _resolve_insulin_column(df) -> str:
 
 
 def _glm7_input_row(row, insulin_column: str) -> dict[str, float]:
+    # GLM7 formula uses 7 factors: age, BMI, FBG, insulin, TG, LDL-c, HDL-c.
     return {
         "age": row["ridageyr"],
+        "bmi": row["bmxbmi"],
+        "fbg": row["lbxglu"],
         "insulin": row[insulin_column],
         "triglycerides": row["lbxtr"],
         "ldl_c": row["lbdldl"],
-        "aip": row["aip"],
-        "tyg": row["tyg"],
-        "tyg_bmi": row["tyg_bmi"],
+        "hdl_c": row["lbdhdd"],
     }
 
 

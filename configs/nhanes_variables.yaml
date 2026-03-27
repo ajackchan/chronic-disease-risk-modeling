@@ -1,4 +1,86 @@
-﻿cycles:
+cycles:
+  2013-2014:
+    DEMO:
+      - seqn
+      - ridstatr
+      - ridageyr
+      - riagendr
+      - ridreth3
+      - dmdeduc2
+      - sdmvpsu
+      - sdmvstra
+      - wtint2yr
+      - wtmec2yr
+    BMX:
+      - seqn
+      - bmxbmi
+    GLU:
+      - seqn
+      - lbxglu
+    HDL:
+      - seqn
+      - lbdhdd
+    TRIGLY:
+      - seqn
+      - lbxtr
+      - lbdldl
+    INS:
+      - seqn
+      - lbxin
+      - lbxins
+    MCQ:
+      - seqn
+      - mcq160b
+      - mcq160c
+      - mcq160d
+      - mcq160e
+      - mcq160f
+      - mcq160l
+      - mcq220
+    DIQ:
+      - seqn
+      - diq010
+  2015-2016:
+    DEMO:
+      - seqn
+      - ridstatr
+      - ridageyr
+      - riagendr
+      - ridreth3
+      - dmdeduc2
+      - sdmvpsu
+      - sdmvstra
+      - wtint2yr
+      - wtmec2yr
+    BMX:
+      - seqn
+      - bmxbmi
+    GLU:
+      - seqn
+      - lbxglu
+    HDL:
+      - seqn
+      - lbdhdd
+    TRIGLY:
+      - seqn
+      - lbxtr
+      - lbdldl
+    INS:
+      - seqn
+      - lbxin
+      - lbxins
+    MCQ:
+      - seqn
+      - mcq160b
+      - mcq160c
+      - mcq160d
+      - mcq160e
+      - mcq160f
+      - mcq160l
+      - mcq220
+    DIQ:
+      - seqn
+      - diq010
   2017-2018:
     DEMO:
       - seqn
@@ -27,6 +109,7 @@
     INS:
       - seqn
       - lbxin
+      - lbxins
     MCQ:
       - seqn
       - mcq160b
